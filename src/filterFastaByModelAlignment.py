@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+""" a script to take m4 alignments and fasta/fastq files and subset them based on filtering parameters"""
 import os
 import sys
 from pbcore.io.FastqIO import FastqReader
@@ -13,16 +15,16 @@ class M4FastaFilter:
     def __parseArgs( self ):
         """Handle command line argument parsing"""
         
-        usage = "%prog [--help] [options] ARG1"
+        usage = "%prog [--help] [options] blasr_m4_file fasta_file1 fasta_file2"
         parser = optparse.OptionParser( usage=usage, description=__doc__ )
 
         parser.add_option( "-l", "--logFile", help="Specify a file to log to. Defaults to stderr." )
         parser.add_option( "-d", "--debug", action="store_true", help="Increases verbosity of logging" )
         parser.add_option( "-i", "--info", action="store_true", help="Display informative log entries" )
         parser.add_option( "-p", "--profile", action="store_true", help="Profile this script, dumping to <scriptname>.profile" )
-        parser.add_option( "-s", "--scoreCut", help="Score cutoff to accept alignment")
-        parser.add_option( "--pctCut", help="Percent Similarity cutoff to accept alignment")
-        parser.add_option( "--lenCut", help="aligment length cutoff")
+        parser.add_option( "-s", "--scoreCut", help="Score cutoff to accept alignment (DEFAULT = 0)")
+        parser.add_option( "--pctCut", help="Percent Similarity cutoff to accept alignment (DEFAULT = 0.7)")
+        parser.add_option( "--lenCut", help="aligment length cutoff (DEFAULT = 100)")
         parser.add_option( "--fastq", action="store_true", help="input is fastq" )
 
 
