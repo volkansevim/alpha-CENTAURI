@@ -1,6 +1,7 @@
 import os
 import sys
-pbcore.io.FastaIO import FastqReader, FastaReader
+from pbcore.io.FastqIO import FastqReader
+from pbcore.io.FastaIO import FastaReader
 from pbcore.io.BlasrIO import M4Reader
 import optparse, logging
 
@@ -25,17 +26,17 @@ class M4FastaFilter:
         parser.add_option( "--fastq", action="store_true", help="input is fastq" )
 
 
-        parser.set_defaults( logFile=None, debug=False, info=False, profile=False, scoreCut = 100, pctCut = .7, lenCut = 100, fastq=False)
+        parser.set_defaults( logFile=None, debug=False, info=False, profile=False, scoreCut = 0, pctCut = .7, lenCut = 100, fastq=False)
         
         self.opts, args = parser.parse_args( )
 
-        if len(args) != 1:
+        if len(args) < 2:
             parser.error( "Expected a single argument." )
 
         self.blasrfn = args[0]
-        self.fastafn = args[1]
+        self.fastafns = args[1:]
         self.minScore = int(self.opts.scoreCut) 
-        self.minPctId = float(self.opts.minPctCut)
+        self.minPctId = float(self.opts.pctCut)
         self.minAlignLen = int(self.opts.lenCut)
 
 
@@ -59,27 +60,28 @@ class M4FastaFilter:
         logging.info("Log level set to INFO")
         logging.debug("Log Level set to DEBUG")
 
-        readids = readBlasrIDsToDict ()
-        filterFastaByIds (readids)
+        readids = self.readBlasrIDsToDict ()
+        self.filterFastaByIds (readids)
         return 0
 
     def readBlasrIDsToDict (self):
     	readids = set()
     	for m4record in M4Reader(self.blasrfn):
-    		if m4recore.score > self.minScore and m4record.percentSimilarity > self.minPctId and self.tEnd-self.tStart > self.minAlignLen:
-    			readids.add(m4record.qName)
+            if m4record.score < self.minScore and m4record.percentSimilarity > self.minPctId and m4record.tEnd-m4record.tStart > self.minAlignLen:
+                readids.add(m4record.qName)
+        logging.debug(readids)
     	return readids
 
     def filterFastaByIds (self, readids):
     	for fastafn in self.fastafns:
-    		if self.opts.fastq:
-    			for entry in FastaReader (fastafn):
-    				if entry.name in readids:
-    					print entry
-    		else:
-    			for entry in FastaReader (fastafn):
-    				if entry.name in readids:
-    					print entry
+            if self.opts.fastq:
+                for entry in FastqReader (fastafn):
+                    if entry.name in readids:
+                        print entry
+            else:
+                for entry in FastaReader (fastafn):
+                    if entry.name in readids:
+                        print entry
 
 
 
