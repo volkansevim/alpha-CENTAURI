@@ -10,8 +10,9 @@ setup(
         scripts = ['chop_to_monomers.py',  
 		   'count_found_monomers_in_fa.py', 
 		   'monomer_graph_analysis.py' ],
-	i
+	
         url = 'https://github.com/volkansevim/alpha-CENTAURI',
         download_url = 'https://github.com/volkansevim/alpha-CENTAURI/',
 	license = 'LICENSE.txt',
+	install_requires = [ "pbcore >= 0.6.3", "falcon >= 0.1", "networkx >= 1.7", "numpy >= 1.7" ]
 )
