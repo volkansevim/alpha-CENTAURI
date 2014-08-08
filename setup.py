@@ -6,7 +6,7 @@ setup(
         author = 'Volkan Sevim & Jason Chin',
         author_email = 'vsevim@pacificbiosciences.com',
         packages = ['alpha-CENTAURI'],
-	package_dir = {'': 'src'},
+	package_dir = {'alpha-CENTAURI': 'src'},
         scripts = ['src/chop_to_monomers.py',  
 		   'src/count_found_monomers_in_fa.py', 
 		   'src/monomer_graph_analysis.py' ],
