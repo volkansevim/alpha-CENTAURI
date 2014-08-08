@@ -7,12 +7,10 @@ setup(
         author_email = 'vsevim@pacificbiosciences.com',
         packages = ['alpha-CENTAURI'],
 	package_dir = {'alpha-CENTAURI': 'src'},
-        scripts = [ 'calc_alignment_scores_for_inferred_monomers.py', 
-		   'chop_to_monomers.py', 
-		   'cluster_monomers.py', 
+        scripts = ['chop_to_monomers.py',  
 		   'count_found_monomers_in_fa.py', 
-		   'get_reads_with_monomers.py' ],
-	
+		   'monomer_graph_analysis.py' ],
+	i
         url = 'https://github.com/volkansevim/alpha-CENTAURI',
         download_url = 'https://github.com/volkansevim/alpha-CENTAURI/',
 	license = 'LICENSE.txt',
