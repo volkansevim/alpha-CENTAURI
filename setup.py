@@ -6,7 +6,7 @@ setup(
         author = 'Volkan Sevim & Jason Chin',
         author_email = 'vsevim@pacificbiosciences.com',
         packages = ['alpha-CENTAURI'],
-	package_dir = {'alpha-CENTAURI': 'src'},
+	package_dir = {'alpha-CENTAURI': 'src', 'example'},
         scripts = ['src/chop_to_monomers.py',  
 		   'src/count_found_monomers_in_fa.py', 
 		   'src/monomer_graph_analysis.py' ],
@@ -15,7 +15,5 @@ setup(
         download_url = 'https://github.com/volkansevim/alpha-CENTAURI/',
 	license = 'LICENSE.txt',
 	install_requires = [ "pbcore >= 0.6.3", "falcon >= 0.1", "networkx >= 1.7", "numpy >= 1.7" ],
-	packages = find_packages('.'),
-	package_dir = {'':'.'},
-	package_data = {'alpha-CENTAURI': ['examples/*'] },
+	package_data = {'example': ['examples/*'] }
 )
