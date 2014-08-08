@@ -98,23 +98,23 @@ The files below are the outputs of the steps 1. and 2. of the workflow and provi
 
 Workflow
 
-1. Generate multiple sequence alignments on the initial set of monomers. 
-    
+Generate multiple sequence alignments on the initial set of monomers 
+
     $ cd alpha-CENTAURI/example/
     $ $CENT_HOME/clustal-2.1/src/clustalW MigaKH.HigherOrderRptMon.fa
 
-2. Build an HMM based on the alignment.
-    
+Build an HMM based on the alignment.
+
     $ hmmbuild monomers.hmm MigaKH.HigherOrderRptMon.aln
     $ hmmpress monomers.hmm
 
-3. Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
+Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
     $ python ../src/chop_to_monomers.py monomer.hmm preads_HuPac.fa > HuPac_monomers.fa
 
-4. Analyze the higher order structures in the sequence data
+Analyze the higher order structures in the sequence data.
 
-    $python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
+    $ python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
 	
 
 
