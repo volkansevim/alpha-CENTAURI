@@ -96,7 +96,7 @@ The files below are the outputs of the steps 1. and 2. of the workflow and provi
 * MigaKH.HigherOrderRptMon.aln and .dnd: Multiple sequence alignments for the initial set of monomers.
 * monomers.hmm, .h3m, .h3i, h3f, h3p: HMM built using the multiple sequence alignment of the initial set of monomers.
 
-Workflow
+### Workflow Steps
 
 Generate multiple sequence alignments on the initial set of monomers 
 
