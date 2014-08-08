@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from falcon_kit import kup, falcon, DWA, get_consensus, get_alignment
 #import matplotlib.pyplot as plt
 from pbcore.io import FastaReader
