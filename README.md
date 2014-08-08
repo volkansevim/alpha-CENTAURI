@@ -55,22 +55,24 @@ Install ``h5py`` ( http://h5py.googlecode.com/files/h5py-2.0.1.tar.gz )::
 
 Install ``networkx``
 
-    $pip install networkx
+    $ pip install networkx
 
 Install PAcBio packages ``PBcore`` and ``Falcon``
 
-    $pip install git+https://github.com/PacificBiosciences/pbcore.git#pbcore
-    $pip install git+https://github.com/PacificBiosciences/FALCON.git#falcon
+    $ pip install git+https://github.com/PacificBiosciences/pbcore.git#pbcore
+    $ pip install git+https://github.com/PacificBiosciences/FALCON.git#falcon
  
 Install ``HMMer``
-    $wget http://selab.janelia.org/software/hmmer3/3.1b1/hmmer-3.1b1-linux-intel-ia32.gz.tar
-    $tar -xvf hmmer-3.1b1-linux-intel-ia32.gz.tar
-    $./configure
-    $make
-    $make check
-    $make install
+
+    $ wget http://selab.janelia.org/software/hmmer3/3.1b1/hmmer-3.1b1-linux-intel-ia32.gz.tar
+    $ tar -xvf hmmer-3.1b1-linux-intel-ia32.gz.tar
+    $ ./configure
+    $ make
+    $ make check
+    $ make install
 
 Install ``ClustalW``
+
     $wget http://www.clustal.org/download/current/clustalx-2.1-linux-i686-libcppstatic.tar.gz
     $cd clustalw-2.1
     $./configure
@@ -86,29 +88,29 @@ Workflow Example
 --------------
 We will use the dataset provided in the package for this example under ``example`` folder. There are 9 files in this folder:
 
-*MigaKH.HigherOrderRptMon.fa: Initial set of monomers from the human genome
-*pread_HuPac_example.fa: A filtered set of reads that contain sequences similar to the provided monomers.
+* MigaKH.HigherOrderRptMon.fa: Initial set of monomers from the human genome
+* pread_HuPac_example.fa: A filtered set of reads that contain sequences similar to the provided monomers.
 
-The three files below are the outputs of the steps 1. and 2. of the workflow and provided for convenience.
+The files below are the outputs of the steps 1. and 2. of the workflow and provided for convenience.
 
-*MigaKH.HigherOrderRptMon.aln and .dnd: Multiple sequence alignments for the initial set of monomers.
-*monomers.hmm, .h3m, .h3i, h3f, h3p: HMM built using the multiple sequence alignment of the initial set of monomers.
+* MigaKH.HigherOrderRptMon.aln and .dnd: Multiple sequence alignments for the initial set of monomers.
+* monomers.hmm, .h3m, .h3i, h3f, h3p: HMM built using the multiple sequence alignment of the initial set of monomers.
 
 Workflow
 
 1. Generate multiple sequence alignments on the initial set of monomers. 
     
-    $cd alpha-CENTAURI/example/
-    $$CENT_HOME/clustal-2.1/src/clustalW MigaKH.HigherOrderRptMon.fa
+    $ cd alpha-CENTAURI/example/
+    $ $CENT_HOME/clustal-2.1/src/clustalW MigaKH.HigherOrderRptMon.fa
 
 2. Build an HMM based on the alignment.
     
-    $hmmbuild monomers.hmm MigaKH.HigherOrderRptMon.aln
-    $hmmpress monomers.hmm
+    $ hmmbuild monomers.hmm MigaKH.HigherOrderRptMon.aln
+    $ hmmpress monomers.hmm
 
 3. Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
-    $python ../src/chop_to_monomers.py monomer.hmm preads_HuPac.fa > HuPac_monomers.fa
+    $ python ../src/chop_to_monomers.py monomer.hmm preads_HuPac.fa > HuPac_monomers.fa
 
 4. Analyze the higher order structures in the sequence data
 
