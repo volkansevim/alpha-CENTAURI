@@ -60,8 +60,8 @@ for seq_name, ranges in hmm_db.items():
     for idx in len(ranges):
         r = ranges[idx]
         if r[0] < prev_end:
-            if r[1] > prev_end
-            prev_end = r[1]
+            if r[1] > prev_end:
+                prev_end = r[1]
         else:
             if s_flag:
                 flankingranges.append((prev_end, r[0]))
