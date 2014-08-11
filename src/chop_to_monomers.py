@@ -17,7 +17,7 @@ for r in FastaReader(in_seq_file):
     seq = r.sequence
     seq_db[r.name] = seq
     
-
+hmm_db = {}
 with open("test_ctrl.tbl") as f:
     for l in f:
         l = l.strip().split()
@@ -32,7 +32,6 @@ with open("test_ctrl.tbl") as f:
             continue
         s = int(l[8])
         e = int(l[9])
-        
         #print s, e, e-s
         rev = False
         if s > e:
@@ -43,7 +42,41 @@ with open("test_ctrl.tbl") as f:
             sseq = "".join([rc_map[c] for c in seq[e:s:-1]])
         else:
             sseq = seq[s:e]
-
+        hmm_db[seq_name].append((s, e))        
         print ">%s/%d_%d" % ( seq_name, s, e) 
         print sseq
+
+
+for seq_name, ranges in hmm_db.items():
+    ranges.sort(key = lambda x: x[0])
+    beg_seq = 0
+    end_seq = len(seq_db[seq_name])
+    s_flag = True
+    prev_start = 0
+    prev_end = end_seq+1
+    internalranges = []
+    flankingranges = []
+    for idx in len(ranges):
+        r = ranges[idx]
+        if r[0] < prev_end:
+            if r[1] > prev_end
+            prev_end = r[1]
+        else:
+            if s_flag:
+                flankingranges.append((prev_end, r[0]))
+            internalranges.append((prev_end, r[0]))
+            prev_start = r[0]
+            prev_end = r[1]
+    internalranges.append((prev_start, prev_end))
+    flankingranges.append((prev_end+1, end_seq))
+    flankingout = open ("flanking_seq.fa", 'w')
+    internalout = open ("interval_seq.fa", 'w')
+
+    for irange in internalranges:
+        internalout.write("%i %i" %(irange[0], irange[1]))
+    for frange in flankingranges:   
+        flankingout.write("%i %i" %(frange[0], frange[1]))
+
+
+
 
