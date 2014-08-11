@@ -47,6 +47,8 @@ with open("test_ctrl.tbl") as f:
         print ">%s/%d_%d" % ( seq_name, s, e) 
         print sseq
 
+flankingout = open ("flanking_seq.fa", 'w')
+internalout = open ("interval_seq.fa", 'w')
 
 for seq_name, ranges in hmm_db.items():
     ranges.sort(key = lambda x: x[0])
@@ -58,6 +60,7 @@ for seq_name, ranges in hmm_db.items():
     internalranges = []
     flankingranges = []
     for idx in range(len(ranges)):
+
         r = ranges[idx]
         if r[0] < prev_end:
             if r[1] > prev_end:
@@ -70,13 +73,14 @@ for seq_name, ranges in hmm_db.items():
             prev_end = r[1]
     internalranges.append((prev_start, prev_end))
     flankingranges.append((prev_end+1, end_seq))
-    flankingout = open ("flanking_seq.fa", 'w')
-    internalout = open ("interval_seq.fa", 'w')
 
+    sseq = seq_db[seq_name]
     for irange in internalranges:
-        internalout.write("%i %i" %(irange[0], irange[1]))
-    for frange in flankingranges:   
-        flankingout.write("%i %i" %(frange[0], frange[1]))
+        i_s, i_e = irange
+        internalout.write(">%s_%i_%i" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
+    for frange in flankingranges:     
+        f_s, f_e = frange
+        flankingout.write(">%s_%i_%i" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
 
 
 
