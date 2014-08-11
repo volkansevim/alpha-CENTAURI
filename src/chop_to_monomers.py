@@ -43,7 +43,7 @@ with open("test_ctrl.tbl") as f:
             sseq = "".join([rc_map[c] for c in seq[e:s:-1]])
         else:
             sseq = seq[s:e]
-        hmm_db[seq_name].append((s, e))        
+        hmm_db.setdefault(seq_name, []).append((s, e))        
         print ">%s/%d_%d" % ( seq_name, s, e) 
         print sseq
 
