@@ -77,10 +77,10 @@ for seq_name, ranges in hmm_db.items():
     sseq = seq_db[seq_name]
     for irange in internalranges:
         i_s, i_e = irange
-        internalout.write(">%s_%i_%i" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
+        internalout.write(">%s_%i_%i\n%s" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
     for frange in flankingranges:     
         f_s, f_e = frange
-        flankingout.write(">%s_%i_%i" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
+        flankingout.write(">%s_%i_%i\n%s" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
 
 
 
