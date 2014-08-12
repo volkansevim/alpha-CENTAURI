@@ -62,7 +62,7 @@ for seq_name, ranges in hmm_db.items():
     for idx in range(len(ranges)):
 
         r = ranges[idx]
-        if r[0] < prev_end:
+        if r[0] <= prev_end:
             if r[1] > prev_end:
                 prev_end = r[1]
         else:
@@ -76,8 +76,8 @@ for seq_name, ranges in hmm_db.items():
     flankingranges.append((prev_end, end_seq))
 
     sseq = seq_db[seq_name]
-    print >>sys.stderr, internalranges
-    print >>sys.stderr, flankingranges
+    print >>sys.stderr, "internal ranges", internalranges
+    print >>sys.stderr, "flanking ranges", flankingranges
     for irange in internalranges:
         i_s, i_e = irange[0], irange[1] 
         internalout.write(">%s_%i_%i\n%s\n" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
