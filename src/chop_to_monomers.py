@@ -51,19 +51,19 @@ flankingout = open ("flanking_seq.fa", 'w')
 internalout = open ("interval_seq.fa", 'w')
 
 for seq_name, ranges in hmm_db.items():
-    print >>sys.stderr, seq_name, ranges
+    #print >>sys.stderr, seq_name, ranges
     ranges.sort(key = lambda x: x[0])
-    print >>sys.stderr, seq_name, ranges
+    #print >>sys.stderr, seq_name, ranges
     beg_seq = 0
     end_seq = len(seq_db[seq_name])
     s_flag = True
     prev_start = 0
-    prev_end = end_seq+1
+    prev_end = prev_start+1
     internalranges = []
     flankingranges = []
     for idx in range(len(ranges)):
-
         r = ranges[idx]
+        print r
         if r[0] <= prev_end:
             if r[1] > prev_end:
                 prev_end = r[1]
@@ -78,14 +78,16 @@ for seq_name, ranges in hmm_db.items():
     flankingranges.append((prev_end, end_seq))
 
     sseq = seq_db[seq_name]
-    print >>sys.stderr, "internal ranges", internalranges
-    print >>sys.stderr, "flanking ranges", flankingranges
+    #print >>sys.stderr, "internal ranges", internalranges
+    #print >>sys.stderr, "flanking ranges", flankingranges
     for irange in internalranges:
         i_s, i_e = irange[0], irange[1] 
-        internalout.write(">%s_%i_%i\n%s\n" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
+        if i_e - i_s > 100:
+            internalout.write(">%s_%i_%i\n%s\n" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
     for frange in flankingranges:     
         f_s, f_e = frange[0], frange[1]
-        flankingout.write(">%s_%i_%i\n%s\n" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
+        if f_e - f_s > 100:
+            flankingout.write(">%s_%i_%i\n%s\n" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
 
 
 
