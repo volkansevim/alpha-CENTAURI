@@ -68,19 +68,22 @@ for seq_name, ranges in hmm_db.items():
         else:
             if s_flag:
                 flankingranges.append((prev_end, r[0]))
-            internalranges.append((prev_end, r[0]))
-            prev_start = r[0]
-            prev_end = r[1]
-    internalranges.append((prev_start, prev_end))
-    flankingranges.append((prev_end+1, end_seq))
+            else:
+                internalranges.append((prev_end, r[0]))
+                prev_start = r[0]
+                prev_end = r[1]
+        s_flag = False
+    flankingranges.append((prev_end, end_seq))
 
     sseq = seq_db[seq_name]
+    print >>sys.stderr, internalranges
+    print >>sys.stderr, flankingranges
     for irange in internalranges:
-        i_s, i_e = irange
-        internalout.write(">%s_%i_%i\n%s" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
+        i_s, i_e = irange[0], irange[1] 
+        internalout.write(">%s_%i_%i\n%s\n" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
     for frange in flankingranges:     
-        f_s, f_e = frange
-        flankingout.write(">%s_%i_%i\n%s" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
+        f_s, f_e = frange[0], frange[1]
+        flankingout.write(">%s_%i_%i\n%s\n" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
 
 
 
