@@ -53,6 +53,7 @@ internalout = open ("interval_seq.fa", 'w')
 for seq_name, ranges in hmm_db.items():
     print >>sys.stderr, seq_name, ranges
     ranges.sort(key = lambda x: x[0])
+    print >>sys.stderr, seq_name, ranges
     beg_seq = 0
     end_seq = len(seq_db[seq_name])
     s_flag = True
