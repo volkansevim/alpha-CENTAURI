@@ -51,6 +51,7 @@ flankingout = open ("flanking_seq.fa", 'w')
 internalout = open ("interval_seq.fa", 'w')
 
 for seq_name, ranges in hmm_db.items():
+    print >>sys.stderr, seq_name, ranges
     ranges.sort(key = lambda x: x[0])
     beg_seq = 0
     end_seq = len(seq_db[seq_name])
