@@ -6,7 +6,7 @@ Installing and running alpha-CENTAURI
 
 :Version: 0.1.0 of 2014/08/05
 
-alpha-CENTAURI is a Pyhton package to mine for alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided by the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
+alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided by the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
 alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. We provide another package, XXXXX, for such filtering.
 
