@@ -6,7 +6,7 @@ Installing and running alpha-CENTAURI
 
 :Version: 0.1.0 of 2014/08/05
 
-alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided by the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
+alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
 alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. We provide another package, XXXXX, for such filtering.
 
@@ -86,12 +86,12 @@ Clone ``alpha-CENTAURI``:
 
 Workflow Example
 --------------
-We will use the dataset provided in the package for this example under ``example`` folder. There are 9 files in this folder:
+For this example, we will use the dataset under ``example`` folder provided in the package. There are 9 files in this folder:
 
-* MigaKH.HigherOrderRptMon.fa: Initial set of monomers from the human genome
+* MigaKH.HigherOrderRptMon.fa: Initial set of monomers from the human genome.
 * pread_HuPac_example.fa: A filtered set of reads that contain sequences similar to the provided monomers.
 
-The files below are the outputs of the steps 1. and 2. of the workflow and provided for convenience.
+The files below are the outputs of the steps 1. and 2. of the workflow. They are provided for convenience.
 
 * MigaKH.HigherOrderRptMon.aln and .dnd: Multiple sequence alignments for the initial set of monomers.
 * monomers.hmm, .h3m, .h3i, h3f, h3p: HMM built using the multiple sequence alignment of the initial set of monomers.
@@ -114,7 +114,7 @@ Infer monomers from sequence data using the HMM, write them into HuPac_monomers.
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
+    $ python ../src/monomer_grpah_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
 	
 
 
