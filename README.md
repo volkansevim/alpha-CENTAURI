@@ -20,6 +20,7 @@ Prerequisites (you might need superuser privilages to install these packages):
 * python-dev
 * git ( http://git-scm.com/ for installing the dependencies from github )
 * python pip 
+* virtualenv
 
 Make sure you are using python2.7. First create a clean virtualenv and activate it:
 
