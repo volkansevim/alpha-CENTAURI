@@ -111,11 +111,11 @@ Build an HMM based on the alignment.
 
 Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
-    $ python ../src/chop_to_monomers.py monomer.hmm preads_HuPac.fa > HuPac_monomers.fa
+    $ python ../src/chop_to_monomers.py monomers.hmm preads_HuPac.fa > HuPac_monomers.fa
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_grpah_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
+    $ python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
 	
 
 
