@@ -33,8 +33,6 @@ from pbcore.io import FastaReader
 seq_db = {}
 
 filename_root = os.path.basename(pread_filename).split(".")[0]
-#stats_file = open (filename_root + "_stats.csv", 'w')
-filename_root = filename_root + "_min_len_" + str(len_threshold)
 regular_HORs_file = open (filename_root + "_regularHORs.fa", 'w')
 irregular_HORs_file = open (filename_root + "_irregularHORs.fa", 'w')
 too_short_reads_file = open (filename_root + "_too_short_reads.fa", 'w')
