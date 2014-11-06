@@ -139,9 +139,13 @@ Here, _OriginalID_ indicates the ID of the original read, _n_ indicates the peri
 For example in 6ed935a\_20072\_0\_\_\_8646\_\_102\_8369\_\_HOR8: 
 _OriginalID_ : 6ed935a\_20072\_0
 _length_ : 8646
+
 _start_ : 102
+
 _end_ : 8369
+
 _HOR period_ : 8
+
 
 ### Stats.txt Content
 **RID**: Read ID
