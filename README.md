@@ -115,7 +115,20 @@ Infer monomers from sequence data using the HMM, write them into HuPac_monomers.
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
+    $ python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa 
 	
+Higher Order Repeat (HOR) Analysis Output 
+-------------------	
+monomer_graph_analysis.py creates four FASTA and two text files:
+
+* **BASE_regularHORs.fa**: Regular HORs. (See below for definition of regularity.) 
+* **BASE_irregularHORs.fa**: Irregular HORs.
+* **BASE_no_HOR_reads.fa**: Reads that contain monomeric sequences but no detectable HOR.
+* **BASE_too_short_reads.fa**: Reads that are too short to be considered for analysis. Default threshold is 2Kbases.
+
+* **BASE_regularHORs_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
+* **BASE_regularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. (Not meaningful for irregularities caused by non-monomeric insertions.)
+* **BASE_stats.txt**: HOR statistics on reads. (See below for detailed description.)  
+(_BASE_ stands for the base of the input pread file name.)
 
 
