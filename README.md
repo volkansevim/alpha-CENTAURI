@@ -8,7 +8,7 @@ Installing and running alpha-CENTAURI
 
 alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
-alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. We provide another package, XXXXX, for such filtering.
+alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. 
 
 Installation
 --------------
@@ -119,16 +119,19 @@ Analyze the higher order structures in the sequence data.
 	
 Higher Order Repeat (HOR) Analysis Output 
 -------------------	
-monomer_graph_analysis.py creates four FASTA and two text files:
+monomer\_graph\_analysis.py creates four FASTAs and three text files:
 
-* **BASE_regularHORs.fa**: Regular HORs. (See below for definition of regularity.) 
-* **BASE_irregularHORs.fa**: Irregular HORs.
-* **BASE_no_HOR_reads.fa**: Reads that contain monomeric sequences but no detectable HOR.
-* **BASE_too_short_reads.fa**: Reads that are too short to be considered for analysis. Default threshold is 2Kbases.
+* **regularHORs.fa**: Regular HORs extracted from reads. (Leading and trailing partial monomeric sequence in the each read is excluded.) See below for definition of regularity. 
+* *irregularHORs.fa**: Irregular HORs.
+* **no_HOR_reads.fa**: Reads that contain monomeric sequences but no detectable HOR.
+* **too_short_reads.fa**: Reads that are too short to be considered for analysis. Default threshold is 2Kbases.
 
-* **BASE_regularHORs_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
-* **BASE_regularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. (Not meaningful for irregularities caused by non-monomeric insertions.)
-* **BASE_stats.txt**: HOR statistics on reads. (See below for detailed description.)  
-(_BASE_ stands for the base of the input pread file name.)
+* **regularHORs_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
+* **regularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. Not meaningful for irregularities caused by non-monomeric insertions.
+* **stats.txt**: HOR statistics on reads. See below for detailed description.  
+
+** Read ID format in regularHORs and irregularHORs.fa: **
+`>__Original\_Read\_ID__\_\_\___length of HOR__\_\_Start base locus in read\_End base locus in read\_\_HOR__n__`
+__n__ indicates the period of HOR.
 
 
