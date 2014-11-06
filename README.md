@@ -137,15 +137,7 @@ _OriginalID_ \_\_\_ _length_ \_\_ _start_ \_ _end_ \_\_HOR _n_
 Here, _OriginalID_ indicates the ID of the original read, _n_ indicates the period, and _length_ indicates the length of complete HOR structure. _start_ and _end_ indicate the first and last base positions of the HOR structure on the original read. 
 
 For example in 6ed935a\_20072\_0\_\_\_8646\_\_102\_8369\_\_HOR8: 
-_OriginalID_ : 6ed935a\_20072\_0
-_length_ : 8646
-
-_start_ : 102
-
-_end_ : 8369
-
-_HOR period_ : 8
-
+_OriginalID_=6ed935a\_20072\_0, _length_=8646, _start_=102, _end_=8369, _HOR period_=8
 
 ### Stats.txt Content
 **RID**: Read ID
