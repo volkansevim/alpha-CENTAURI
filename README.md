@@ -134,7 +134,7 @@ monomer\_graph\_analysis.py creates four FASTAs and three text files:
 
 _OriginalID_ \_\_\_ _length_ \_\_ _start_ \_ _end_ \_\_HOR _n_
 
-Here, _OriginalID_ indicates the ID of the original read, _n_ indicates the period, and _length_ indicates the length of complete HOR structure. _length_ and _end_ indicate the first and last base positions of the HOR structure on the original read.
+Here, _OriginalID_ indicates the ID of the original read, _n_ indicates the period, and _length_ indicates the length of complete HOR structure. _start_ and _end_ indicate the first and last base positions of the HOR structure on the original read.
 
 ### Stats.txt Content
 **RID**: Read ID
