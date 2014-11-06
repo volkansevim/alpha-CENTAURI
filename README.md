@@ -131,8 +131,8 @@ monomer\_graph\_analysis.py creates four FASTAs and three text files:
 * **stats.txt**: HOR statistics on reads. See below for detailed description.  
 
 ** Read ID format in regularHORs and irregularHORs.fa: **
->__Original\_Read\_ID__\_\_\__length of HOR_\_\_Start base locus in read\_End base locus in read\_\_HOR_n_
-Here, _n_ indicates the period of HOR.
+>_Original_\__Read_\__ID_\_\_\__LENGTH_\_\__START_\__END_\_\_HOR_n_
+Here, _n_ indicates the period, and _LENGTH_ indicates the length of HOR. _START_ and _END_ indicate the first and last base positions of the HOR on the read.
 
 ### Stats.txt Content
 **RID**: Read ID
