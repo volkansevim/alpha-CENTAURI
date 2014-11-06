@@ -131,7 +131,24 @@ monomer\_graph\_analysis.py creates four FASTAs and three text files:
 * **stats.txt**: HOR statistics on reads. See below for detailed description.  
 
 ** Read ID format in regularHORs and irregularHORs.fa: **
->__Original\_Read\_ID__\_\_\__length of HOR_\_\_Start base locus in read\_End base locus in read\_\_HOR__n__
-__n__ indicates the period of HOR.
+>__Original\_Read\_ID__\_\_\__length of HOR_\_\_Start base locus in read\_End base locus in read\_\_HOR_n_
+Here, _n_ indicates the period of HOR.
 
+### Stats.txt Content
+**RID**: Read ID
+**Regularity**: R=regular, I=irregular, N=No HOR detected
+**Read Len**: Read length
+**Thresh**: Threshold used for detecting monomer identity. Algorithm starts from a high threshold and gradually reduces it.
+**#all monomers**: Number of all detected monomers, clustered or not clustered. 
+**#mono in a cluster**: Number of clustered monomers. 
+**Isolates**: Number of monomers that do not belong to a cluster.  
+**Clustered monomer fraction in read**: Fraction of monomers that belong to a cluster.
+**#total clusters**: Total number of clusters, i.e., number of distinct monomers in HOR.
+**median, min, max #monomers in HOR**: These numbers are identical in a regular HOR. In an irregular HOR, . 
+**median, min, max monomer len**:  Lengths of detected monomers can be different. Large deviations from 171bp points to an irregularity.
+**mean identity within clusters**: Mean identity for monomers of the same kind, averaged over all clusters.
+**mean identity between clusters**: Mean identity for monomers of the different kind.
+**min, max, median monomeric period**: Median monomeric period is the median distance between monomers of the same kind. 
+**Normalized min, max monomeric period**: Minimum (maximum) distance between monomers of the same kind normalized by the median distance. 
+**min, max, median head to tail interval**: Head to tail distance is the number of bases between two adjacent monomers. This is generally 0. A large number indicates an insertion.  
 
