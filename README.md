@@ -130,8 +130,10 @@ monomer\_graph\_analysis.py creates four FASTAs and three text files:
 * **regularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. Not meaningful for irregularities caused by non-monomeric insertions.
 * **stats.txt**: HOR statistics on reads. See below for detailed description.  
 
-** Read ID format in regularHORs and irregularHORs.fa: **
+**Read ID format in regularHORs and irregularHORs.fa:** 
+
 _OriginalID_\_\_\_ _LENGTH_ \_\_ _START_ \_ _END_ \_\_HOR_n_
+
 Here, _n_ indicates the period, and _LENGTH_ indicates the length of HOR. _START_ and _END_ indicate the first and last base positions of the HOR on the read.
 
 ### Stats.txt Content
