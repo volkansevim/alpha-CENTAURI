@@ -74,16 +74,16 @@ Install ``HMMer``
 
 Install ``ClustalW``
 
-    $wget http://www.clustal.org/download/current/clustalw-2.1.tar.gz
-    $tar -xvzf clustalw-2.1.tar.gz
-    $cd clustalw-2.1
-    $./configure
-    $make
+    $ wget http://www.clustal.org/download/current/clustalw-2.1.tar.gz
+    $ tar -xvzf clustalw-2.1.tar.gz
+    $ cd clustalw-2.1
+    $ ./configure
+    $ make
 
 Clone ``alpha-CENTAURI``:
 
-    $cd $CENT_HOME
-    $git clone https://github.com/volkansevim/alpha-CENTAURI.git
+    $ cd $CENT_HOME
+    $ git clone https://github.com/volkansevim/alpha-CENTAURI.git
 
 
 Workflow Example
@@ -112,11 +112,11 @@ Build an HMM based on the alignment.
 
 Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
-    $ python ../src/chop_to_monomers.py monomers.hmm preads_HuPac.fa > HuPac_monomers.fa
+    $ python ../src/chop_to_monomers.py monomers.hmm preads_HuPac_example.fa > HuPac_monomers.fa
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa 
+    $ python ../src/monomer_graph_analysis.py preads_HuPac_example.fa HuPac_monomers.fa 
 	
 Higher Order Repeat (HOR) Analysis Output 
 -------------------	
