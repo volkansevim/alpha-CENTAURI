@@ -74,7 +74,8 @@ Install ``HMMer``
 
 Install ``ClustalW``
 
-    $wget http://www.clustal.org/download/current/clustalx-2.1-linux-i686-libcppstatic.tar.gz
+    $wget http://www.clustal.org/download/current/clustalw-2.1.tar.gz
+    $tar -xvzf clustalw-2.1.tar.gz
     $cd clustalw-2.1
     $./configure
     $make
