@@ -8,7 +8,7 @@ Installing and running alpha-CENTAURI
 
 alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
-alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. We provide another package, XXXXX, for such filtering.
+alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. 
 
 Installation
 --------------
@@ -74,15 +74,16 @@ Install ``HMMer``
 
 Install ``ClustalW``
 
-    $wget http://www.clustal.org/download/current/clustalx-2.1-linux-i686-libcppstatic.tar.gz
-    $cd clustalw-2.1
-    $./configure
-    $make
+    $ wget http://www.clustal.org/download/current/clustalw-2.1.tar.gz
+    $ tar -xvzf clustalw-2.1.tar.gz
+    $ cd clustalw-2.1
+    $ ./configure
+    $ make
 
 Clone ``alpha-CENTAURI``:
 
-    $cd $CENT_HOME
-    $git clone https://github.com/volkansevim/alpha-CENTAURI.git
+    $ cd $CENT_HOME
+    $ git clone https://github.com/volkansevim/alpha-CENTAURI.git
 
 
 Workflow Example
@@ -111,11 +112,65 @@ Build an HMM based on the alignment.
 
 Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
-    $ python ../src/chop_to_monomers.py monomers.hmm preads_HuPac.fa > HuPac_monomers.fa
+    $ python ../src/chop_to_monomers.py monomers.hmm preads_HuPac_example.fa > HuPac_monomers.fa
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_graph_analysis.py preads_HuPac.fa HuPac_monomers.fa > HOR_analysis.csv
+    $ python ../src/monomer_graph_analysis.py preads_HuPac_example.fa HuPac_monomers.fa 
 	
+Higher Order Repeat (HOR) Analysis Output 
+-------------------	
+monomer\_graph\_analysis.py creates four FASTAs and three text files:
 
+* **regularHORs.fa**: Regular HORs extracted from reads. (Leading and trailing partial monomeric sequence in the each read is excluded.) See below for definition of regularity. 
+* *irregularHORs.fa**: Irregular HORs.
+* **no_HOR_reads.fa**: Reads that contain monomeric sequences but no detectable HOR.
+* **too_short_reads.fa**: Reads that are too short to be considered for analysis. Default threshold is 2Kbases.
+
+* **regularHORs_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
+* **regularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. Not meaningful for irregularities caused by non-monomeric insertions.
+* **stats.txt**: HOR statistics on reads. See below for detailed description.  
+
+**Read ID format in regularHORs and irregularHORs.fa:** 
+
+_OriginalID_ \_\_\_ _length_ \_\_ _start_ \_ _end_ \_\_HOR _n_
+
+Here, _OriginalID_ indicates the ID of the original read, _n_ indicates the period, and _length_ indicates the length of complete HOR structure. _start_ and _end_ indicate the first and last base positions of the HOR structure in the original read. 
+
+Example: `6ed935a_20072_0___8646__102_8369__HOR8`
+
+_OriginalID_=6ed935a\_20072\_0, _length_=8646, _start_=102, _end_=8369, _HOR period_=8
+
+### Stats.txt Content
+**RID**: Read ID
+
+**Regularity**: R=regular, I=irregular, N=No HOR detected
+
+**Read Len**: Read length
+
+**Thresh**: Threshold used for detecting monomer identity. Algorithm starts from a high threshold and gradually reduces it.
+
+**#all monomers**: Number of all detected monomers, clustered or not clustered. 
+
+**#mono in a cluster**: Number of clustered monomers. 
+
+**Isolates**: Number of monomers that do not belong to a cluster.  
+
+**Clustered monomer fraction in read**: Fraction of monomers that belong to a cluster.
+
+**#total clusters**: Total number of clusters, i.e., number of distinct monomers in HOR.
+
+**median, min, max #monomers in HOR**: These numbers are identical in a regular HOR. In an irregular HOR, . 
+
+**median, min, max monomer len**:  Lengths of detected monomers can be different. Large deviations from 171bp points to an irregularity.
+
+**mean identity within clusters**: Mean identity for monomers of the same kind, averaged over all clusters.
+
+**mean identity between clusters**: Mean identity for monomers of the different kind.
+
+**min, max, median monomeric period**: Median monomeric period is the median distance between monomers of the same kind.
+
+**Normalized min, max monomeric period**: Minimum (maximum) distance between monomers of the same kind normalized by the median distance. 
+
+**min, max, median head to tail interval**: Head to tail distance is the number of bases between two adjacent monomers. This is generally 0. A large number indicates an insertion.  
 

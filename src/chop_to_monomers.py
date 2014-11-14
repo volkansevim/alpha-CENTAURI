@@ -63,7 +63,6 @@ for seq_name, ranges in hmm_db.items():
     flankingranges = []
     for idx in range(len(ranges)):
         r = ranges[idx]
-        print r
         if r[0] <= prev_end:
             if r[1] > prev_end:
                 prev_end = r[1]
