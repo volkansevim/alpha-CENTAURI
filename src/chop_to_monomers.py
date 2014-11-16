@@ -3,14 +3,40 @@ from pbcore.io import FastaReader
 import re
 import sys
 import os
+import argparse
 
-hmm_model = sys.argv[1]
-in_seq_file = sys.argv[2]
+class DefaultList(list):
+    def __copy__(self):
+        return [] 
 
-#TODO: use tmp fle than test.tbl and test.out
+parser = argparse.ArgumentParser()
+
+parser.add_argument('-f', 
+                    action='store', 
+                    dest ='fasta_file',
+                    help ='Name of the FASTA file containing the reads.',
+                    required = True)
+
+parser.add_argument('-m', action = 'store', 
+                    dest = 'hmm_file',
+                    help = 'Name of the HMM file.',
+                    required = True)
+
+parser.add_argument('-l', 
+                    action = 'store',
+                    type = int,
+                    default = 160,
+                    dest = 'min_monomer_length',
+                    help = 'Minimum monomer length.')
+
+parser.add_argument('--version', action='version', version='%(prog)s 0.2')
+
+results = parser.parse_args()
+in_seq_file = results.fasta_file
+hmm_model = results.hmm_file
+mono_len_threshold = results.min_monomer_length
 
 os.system("rm test_ctrl.tbl; rm test_ctrl.out; nhmmscan --cpu 32 --tblout test_ctrl.tbl -o test_ctrl.out --notextw %s %s" % (hmm_model, in_seq_file)) 
-
 
 rc_map = dict( zip("ACGTacgtN","TGCAtgcaN") )
 seq_db = {}
@@ -44,7 +70,7 @@ with open("test_ctrl.tbl") as f:
         else:
             sseq = seq[s:e]
         hmm_db.setdefault(seq_name, []).append((s, e))        
-        print ">%s/%d_%d" % ( seq_name, s, e) 
+        print ">%s/%d_%d/%s" % (seq_name, s, e, 'R' if rev else 'F' ) 
         print sseq
 
 flankingout = open ("flanking_seq.fa", 'w')
@@ -63,6 +89,7 @@ for seq_name, ranges in hmm_db.items():
     flankingranges = []
     for idx in range(len(ranges)):
         r = ranges[idx]
+        #print r
         if r[0] <= prev_end:
             if r[1] > prev_end:
                 prev_end = r[1]
