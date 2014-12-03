@@ -142,9 +142,12 @@ monomer\_graph\_analysis.py creates four FASTAs and three text files:
 * *irregularHORs.fa**: Irregular HORs.
 * **no_HOR_reads.fa**: Reads that contain monomeric sequences but no detectable HOR.
 * **too_short_reads.fa**: Reads that are too short to be considered for analysis. Default threshold is 2Kbases.
+* **inversions.fa**: Reads that contain an inversion. 
 
 * **regularHORs_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
-* **regularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. Not meaningful for irregularities caused by non-monomeric insertions.
+* **irregularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. Not meaningful for irregularities caused by non-monomeric insertions.
+* **inversions_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
+
 * **stats.txt**: HOR statistics on reads. See below for detailed description.  
 
 **Read ID format in regularHORs and irregularHORs.fa:** 
