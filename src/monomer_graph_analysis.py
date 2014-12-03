@@ -65,9 +65,9 @@ identity_thresholds = results.thresholds_list
 allowed_max_head_to_tail = results.head_to_tail
 
 header = "RID\t" + "Regularity\t" + "Read_Len\t" + "Thresh\t" + "#All_Monomers(clustered+not_clustered)\t" +\
-    "#mono_in_a_cluster\t" + "Isolates_(all_minus_clustered)\t" + \
-    "Clustered_monomer_fraction_in_read_(HOR%_in_read)\t" + \
-    "#total_clusters_(distinct_monomers_in_HORs)\t" + "median_#monomers_in_HOR\t" + \
+    "#mono_in_a_cluster\t" + "Isolates_(unclustered_monomers)\t" + \
+    "Clustered_monomer_fraction_in_read\t" + \
+    "#total_clusters_(distinct_monomers_in_HOR)\t" + "median_#monomers_in_HOR\t" + \
     "min_#monomers_in_HOR\t" + "max_#monomers_in_HOR\t" + "median_monomer_len\t" + "min_monomer_len\t" + \
     "max_monomer_len\t" + "mean_identity_within_clusters\t" + "mean_identity_between_clusters\t" +\
     "min_monomeric_period\t" + "max_monomeric_period\t" + "median_monomeric_period\t" +\
@@ -163,8 +163,8 @@ for rid, monomers in monomer_db.items():
         forward = False
         reverse = False
         for C in nx.connected_components(G):
-            forward = False
-            reverse = False
+            #forward = False
+            #reverse = False
             for idx in C:
                 s,e = monomers[idx][0]
                 direction = monomers[idx][2]
@@ -243,7 +243,7 @@ for rid, monomers in monomer_db.items():
         fasta_seq = seq_db[rid][HOR_start:HOR_end+1] + "\n"
 
         stats =  "%d\t%f\t%d\t%d\t%d\t%f\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%f\t%f\t%d\t%d\t%d\t%f\t%f\t%d\t%d\t%d\n" % \
-                    (l_seq, threshold, len(monomers), len(data), isolate_count, len(data)*average_monomer_len/l_seq, c_idx,\
+                    (l_seq, threshold, len(monomers), len(data), isolate_count, 1.0*len(data)*average_monomer_len/l_seq, c_idx,\
                     median_monomers_in_HOR, min_monomers_in_HOR, max_monomers_in_HOR,\
                     np.median([round(c) for c in interval/2.0])*2, np.min(interval), np.max(interval),\
                     np.mean(idt_in_clusters), np.mean(idt_out_clusters), \

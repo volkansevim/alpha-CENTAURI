@@ -144,7 +144,7 @@ _OriginalID_=6ed935a\_20072\_0, _length_=8646, _start_=102, _end_=8369, _HOR per
 ### Stats.txt Content
 **RID**: Read ID
 
-**Regularity**: R=regular, I=irregular, N=No HOR detected
+**Regularity**: R=regular, I=irregular, N=No HOR detected, V=Inversion
 
 **Read Len**: Read length
 
