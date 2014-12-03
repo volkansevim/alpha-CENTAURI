@@ -139,18 +139,16 @@ Higher Order Repeat (HOR) Analysis Output
 monomer\_graph\_analysis.py creates four FASTAs and three text files:
 
 * **regularHORs.fa**: Regular HORs extracted from reads. (Leading and trailing partial monomeric sequence in the each read is excluded.) See below for definition of regularity. 
-* *irregularHORs.fa**: Irregular HORs.
+* **irregularHORs.fa**: Irregular HORs.
 * **no_HOR_reads.fa**: Reads that contain monomeric sequences but no detectable HOR.
 * **too_short_reads.fa**: Reads that are too short to be considered for analysis. Default threshold is 2Kbases.
 * **inversions.fa**: Reads that contain an inversion. 
-
 * **regularHORs_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
 * **irregularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. Not meaningful for irregularities caused by non-monomeric insertions.
 * **inversions_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
-
 * **stats.txt**: HOR statistics on reads. See below for detailed description.  
 
-**Read ID format in regularHORs and irregularHORs.fa:** 
+**Read ID format in regularHORs.fa and irregularHORs.fa:** 
 
 _OriginalID_ \_\_\_ _length_ \_\_ _start_ \_ _end_ \_\_HOR _n_
 
@@ -160,7 +158,9 @@ Example: `6ed935a_20072_0___8646__102_8369__HOR8`
 
 _OriginalID_=6ed935a\_20072\_0, _length_=8646, _start_=102, _end_=8369, _HOR period_=8
 
-### Stats.txt Content
+### Stats.txt Content 
+Please see the publication for details about the algorithm.
+
 **RID**: Read ID
 
 **Regularity**: R=regular, I=irregular, N=No HOR detected, V=Inversion
