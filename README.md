@@ -112,11 +112,27 @@ Build an HMM based on the alignment.
 
 Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
-    $ python ../src/chop_to_monomers.py monomers.hmm preads_HuPac_example.fa > HuPac_monomers.fa
+    $  python ../src/chop_to_monomers.py -f pread_HuPac_example.fa -m monomers.hmm > HuPac_monomers.fa
+
+(Here minimum monomer length is assumed 160bp. Use the -l flag to modify it to analyze repeats other than alpha satellites. Use -h flag for help.)
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_graph_analysis.py preads_HuPac_example.fa HuPac_monomers.fa 
+    $ python ../src/monomer_graph_analysis.py -f pread_HuPac_example.fa -m HuPac_monomers.fa
+
+This script is pre-tuned for analyzing alpha-satellite repeats. Use the command-line arguments below to modify the analysis parameters. (Use -h flag for help.)
+
+  -l: Average length of a monomer.
+  -d: Maximum allowed head-to-tail distance between two adjacent monomers.
+  -s: Minimum allowed read length.
+  -t: Specifies a clustering threshold. Multiple -t allowed. Values sorted and tested in descending order.
+
+Default clustering threshold list is 0.98, 0.97, 0.96, 0.95, 0.94, 0.93, 0.92, 0.91, 0.9, 0.89, 0.88. Values are tested in descending order, until an HOR is detected. 
+In order to specify a different (set of) threshold(s) use the -t flag. For example,  
+
+    $ python ../src/monomer_graph_analysis.py -f pread_HuPac_example.fa -m HuPac_monomers.fa -t 0.95 -t 0.93 -t 0.90
+
+would test threshold vales 0.95, 0.93, and 0.90 in that order.
 	
 Higher Order Repeat (HOR) Analysis Output 
 -------------------	
@@ -152,7 +168,7 @@ _OriginalID_=6ed935a\_20072\_0, _length_=8646, _start_=102, _end_=8369, _HOR per
 
 **#all monomers**: Number of all detected monomers, clustered or not clustered. 
 
-**#mono in a cluster**: Number of clustered monomers. 
+**#mono in a cluster**: Total number of clustered monomers. 
 
 **Isolates**: Number of monomers that do not belong to a cluster.  
 
@@ -160,7 +176,9 @@ _OriginalID_=6ed935a\_20072\_0, _length_=8646, _start_=102, _end_=8369, _HOR per
 
 **#total clusters**: Total number of clusters, i.e., number of distinct monomers in HOR.
 
-**median, min, max #monomers in HOR**: These numbers are identical in a regular HOR. In an irregular HOR, . 
+**median, min, max #monomers in HOR**: Median, min, and max of interval/average_monomer_length. 
+Here 'interval' is an array containing distances between the monomers within the same cluster. 
+Min, max, and median are identical in a regular HOR. (Also see 'min, max, median monomeric period' below.)
 
 **median, min, max monomer len**:  Lengths of detected monomers can be different. Large deviations from 171bp points to an irregularity.
 
