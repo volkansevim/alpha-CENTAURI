@@ -1,10 +1,9 @@
 Installing and running alpha-CENTAURI
 ===========================================
 
-:Authors: 
-    Volkan Sevim & Jason Chin
-
-:Version: 0.1.0 of 2014/08/05
+:Contributors: 
+    Volkan Sevim, Jason Chin, Ali Bashir, Karen Miga
+:Version: 0.2 of 2014/12/10
 
 alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
@@ -112,13 +111,13 @@ Build an HMM based on the alignment.
 
 Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
-    $  python ../src/chop_to_monomers.py -f pread_HuPac_example.fa -m monomers.hmm > HuPac_monomers.fa
+    $  python ../src/chop_to_monomers.py pread_HuPac_example.fa monomers.hmm > HuPac_monomers.fa
 
 (Here minimum monomer length is assumed 160bp. Use the -l flag to modify it to analyze repeats other than alpha satellites. Use -h flag for help.)
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_graph_analysis.py -f pread_HuPac_example.fa -m HuPac_monomers.fa
+    $ python ../src/monomer_graph_analysis.py pread_HuPac_example.fa HuPac_monomers.fa
 
 This script is pre-tuned for analyzing alpha-satellite repeats. Use the command-line arguments below to modify the analysis parameters. (Use -h flag for help.)
 
@@ -130,7 +129,7 @@ This script is pre-tuned for analyzing alpha-satellite repeats. Use the command-
 Default clustering threshold list is 0.98, 0.97, 0.96, 0.95, 0.94, 0.93, 0.92, 0.91, 0.9, 0.89, 0.88. Values are tested in descending order, until an HOR is detected. 
 In order to specify a different (set of) threshold(s) use the -t flag. For example,  
 
-    $ python ../src/monomer_graph_analysis.py -f pread_HuPac_example.fa -m HuPac_monomers.fa -t 0.95 -t 0.93 -t 0.90
+    $ python ../src/monomer_graph_analysis.py pread_HuPac_example.fa HuPac_monomers.fa -t 0.95 -t 0.93 -t 0.90
 
 would test threshold vales 0.95, 0.93, and 0.90 in that order.
 	
@@ -158,6 +157,20 @@ Example: `6ed935a_20072_0___8646__102_8369__HOR8`
 
 _OriginalID_=6ed935a\_20072\_0, _length_=8646, _start_=102, _end_=8369, _HOR period_=8
 
+### KNOWN ISSUES 
+As one lowers the clustering threshold, repeat structure tends to converge onto 
+a dimer, i.e., HOR2. Thus, some HOR2s classified as regular can be irregular 
+repeats. We recommend a visual inspection of all regular HOR2 predictions. An 
+alternative is to raise the lowest clustering threshold, however, that could 
+result in missing some regular repeats with periods longer that 2.
+
+Some reads that are classified as irregular are in fact regular. Ther are two 
+reason for this misclassification:
+    (a) One or more monomers in the read are not recognized by the HMM.
+    (b) HOR unit contains more multiple instances of a certain monomer.
+We will improve the workflow in the next version of the software to correctly 
+classify such reads.
+
 ### Stats.txt Content 
 Please see the publication for details about the algorithm.
 
@@ -178,12 +191,6 @@ Please see the publication for details about the algorithm.
 **Clustered monomer fraction in read**: Fraction of monomers that belong to a cluster.
 
 **#total clusters**: Total number of clusters, i.e., number of distinct monomers in HOR.
-
-**median, min, max #monomers in HOR**: Median, min, and max of interval/average_monomer_length. 
-Here 'interval' is an array containing distances between the monomers within the same cluster. 
-Min, max, and median are identical in a regular HOR. (Also see 'min, max, median monomeric period' below.)
-
-**median, min, max monomer len**:  Lengths of detected monomers can be different. Large deviations from 171bp points to an irregularity.
 
 **mean identity within clusters**: Mean identity for monomers of the same kind, averaged over all clusters.
 

@@ -9,25 +9,23 @@ class DefaultList(list):
     def __copy__(self):
         return [] 
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-parser.add_argument('-f', 
-                    action='store', 
-                    dest ='fasta_file',
-                    help ='Name of the FASTA file containing the reads.',
-                    required = True)
+parser.add_argument('fasta_file', 
+                    action='store',                    
+                    help ='Name of the FASTA file containing the reads')
 
-parser.add_argument('-m', action = 'store', 
-                    dest = 'hmm_file',
-                    help = 'Name of the HMM file.',
-                    required = True)
+parser.add_argument('hmm_file',
+                    action = 'store',
+                    help = 'Name of the HMM file')
 
 parser.add_argument('-l', 
                     action = 'store',
                     type = int,
                     default = 160,
                     dest = 'min_monomer_length',
-                    help = 'Minimum monomer length.')
+                    help = 'Minimum monomer length')
 
 parser.add_argument('--version', action='version', version='%(prog)s 0.2')
 
