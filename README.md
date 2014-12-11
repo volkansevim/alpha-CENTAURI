@@ -57,7 +57,7 @@ Install ``networkx``
 
     $ pip install networkx
 
-Install PAcBio packages ``PBcore`` and ``Falcon``
+Install PacBio packages ``PBcore`` and ``Falcon``
 
     $ pip install git+https://github.com/PacificBiosciences/pbcore.git#pbcore
     $ pip install git+https://github.com/PacificBiosciences/FALCON.git#falcon
@@ -111,7 +111,7 @@ Build an HMM based on the alignment.
 
 Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
 
-    $  python ../src/chop_to_monomers.py pread_HuPac_example.fa monomers.hmm > HuPac_monomers.fa
+    $ python ../src/chop_to_monomers.py pread_HuPac_example.fa monomers.hmm > HuPac_monomers.fa
 
 (Here minimum monomer length is assumed 160bp. Use the -l flag to modify it to analyze repeats other than alpha satellites. Use -h flag for help.)
 
@@ -166,8 +166,11 @@ result in missing some regular repeats with periods longer that 2.
 
 Some reads that are classified as irregular are in fact regular. Ther are two 
 reason for this misclassification:
+
     (a) One or more monomers in the read are not recognized by the HMM.
+
     (b) HOR unit contains more multiple instances of a certain monomer.
+
 We will improve the workflow in the next version of the software to correctly 
 classify such reads.
 
@@ -200,5 +203,5 @@ Please see the publication for details about the algorithm.
 
 **Normalized min, max monomeric period**: Minimum (maximum) distance between monomers of the same kind normalized by the median distance. 
 
-**min, max, median head to tail interval**: Head to tail distance is the number of bases between two adjacent monomers. This is generally 0. A large number indicates an insertion.  
+**min, max, median head to tail interval**: Number of bases between two adjacent monomers. This is generally 0. A large number indicates an insertion.  
 
