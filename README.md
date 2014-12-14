@@ -60,7 +60,7 @@ Install ``networkx``
 Install PacBio packages ``PBcore`` and ``Falcon``
 
     $ pip install git+https://github.com/PacificBiosciences/pbcore.git#pbcore
-    $ pip install git+https://github.com/PacificBiosciences/FALCON.git#falcon
+    $ pip install git+https://github.com/PacificBiosciences/FALCON.git@v0.1.3#falcon
  
 Install ``HMMer``
 
