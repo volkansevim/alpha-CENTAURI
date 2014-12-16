@@ -40,7 +40,7 @@ Install ``networkx``
 
     $ pip install networkx
 
-Install PacBio package ``Falcon`` (Install this specific commit to avoid a future incompatibility.)
+Install PacBio package ``Falcon`` (Install the commit specified below to avoid a future incompatibility.)
 
     $ pip install git+https://github.com/PacificBiosciences/FALCON.git@96230ec9d6027e465deaccdb6fe3c045e5b820a3#falcon
  
