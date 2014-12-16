@@ -3,7 +3,7 @@ Installing and running alpha-CENTAURI
 
 :Contributors: 
 
-    Volkan Sevim, Jason Chin, Ali Bashir, Karen Miga
+Volkan Sevim, Jason Chin, Ali Bashir, Karen Miga
 
 :Version: 
 
@@ -150,9 +150,9 @@ result in missing some regular repeats with periods longer that 2.
 Some reads that are classified as irregular are in fact regular. Ther are two 
 reason for this misclassification:
 
-    (a) One or more monomers in the read are not recognized by the HMM.
+(a) One or more monomers in the read are not recognized by the HMM.
 
-    (b) HOR unit contains more multiple instances of a certain monomer.
+(b) HOR unit contains more multiple instances of a certain monomer.
 
 We will improve the workflow in the next version of the software to correctly 
 classify such reads.
