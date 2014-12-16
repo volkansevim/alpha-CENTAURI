@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from falcon_kit import kup, falcon, DWA, get_consensus, get_alignment
-from pbcore.io import FastaReader
+from falcon_kit import falcon, DWA
+from falcon_kit.FastaReader import FastaReader
 import sys
 import re
 import networkx as nx

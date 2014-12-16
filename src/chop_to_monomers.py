@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from pbcore.io import FastaReader
+from falcon_kit.FastaReader import FastaReader
 import re
 import sys
 import os
