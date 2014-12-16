@@ -9,7 +9,7 @@ Volkan Sevim, Jason Chin, Ali Bashir, Karen Miga
 
 0.2 of 2014/12/10
 
-alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
+alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a sample set is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
 alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. 
 
@@ -40,9 +40,9 @@ Install ``networkx``
 
     $ pip install networkx
 
-Install PacBio package ``Falcon``
+Install PacBio package ``Falcon`` (Install this specific commit to avoid a future incompatibility.)
 
-    $ pip install git+https://github.com/PacificBiosciences/FALCON.git#falcon
+    $ pip install git+https://github.com/PacificBiosciences/FALCON.git@96230ec9d6027e465deaccdb6fe3c045e5b820a3#falcon
  
 Install ``HMMer`` (Instructions are intended for the 32-bit version. If you have a 64-bit system, locate the corresponding file on the HMMER website, and install as explained below.)
 
