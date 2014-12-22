@@ -162,7 +162,6 @@ as the current algorithm cannot distinguish a TE from an unrecognized monomer.
 
 We will improve the workflow in the next version of the software to correctly 
 classify such reads.
-
 ### Stats.txt Content 
 Please see the publication for details about the algorithm.
 
