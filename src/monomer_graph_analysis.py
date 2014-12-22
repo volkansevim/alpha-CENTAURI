@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from falcon_kit import kup, falcon, DWA, get_consensus, get_alignment
-from pbcore.io import FastaReader
+from falcon_kit import falcon, DWA
+from falcon_kit.FastaReader import FastaReader
 import sys
 import re
 import networkx as nx
@@ -65,7 +65,7 @@ results = parser.parse_args()
 pread_filename = results.reads_fasta
 inferred_monomer_filename = results.monomer_fasta
 len_threshold = results.shortest_read_len
-average_monomer_len = results.monomer_length
+avg_monomer_len = results.monomer_length
 identity_thresholds = results.thresholds_list
 allowed_max_head_to_tail = results.head_to_tail
 
@@ -102,6 +102,7 @@ inversions_file = open(filename_root + "_inversions.fa", 'w')
 irregular_HORs_file = open(filename_root + "_irregularHORs.fa", 'w')
 too_short_reads_file = open(filename_root + "_too_short_reads.fa", 'w')
 no_HOR_reads_file = open(filename_root + "_no_HOR_reads.fa", 'w')
+missing_monomer_file = open(filename_root + "_missing_monomer.fa", 'w')
 regular_pattern_file = open(filename_root + "_regularHORs_pattern.txt", 'w')
 irregular_pattern_file = \
     open(filename_root + "_irregularHORs_pattern.txt", 'w')
@@ -110,7 +111,7 @@ stats_file = open(filename_root + "_stats.txt", 'w')
 stats_file.write(header + "\n")
 
 # Print parameters
-print "Average monomer length: ", average_monomer_len
+print "Average monomer length: ", avg_monomer_len
 print "Max head-to-tail distance: ", allowed_max_head_to_tail
 print "Shortest read length: ", len_threshold
 print "Clustering thresolds: ", identity_thresholds
@@ -139,7 +140,7 @@ for r in FastaReader(inferred_monomer_filename):
     monomer_db[rid].append((rng, r.sequence, orientation))
 
 print len(seq_db), " sequences read.",\
-    "Reads withmonomers:", len(monomer_db.keys())
+    "Reads with monomers:", len(monomer_db.keys())
 
 # RUN OVER ALL READS THAT CONTAIN MONOMERS #
 for rid, monomers in monomer_db.items():
@@ -176,6 +177,7 @@ for rid, monomers in monomer_db.items():
 
     is_regular = False
     inversion_detected = False
+    missing_monomer = False
 
     # SCAN THE READ FOR AN HOR AT MULTIPLE CLUSTERING THRESHOLDS #
     for threshold in identity_thresholds:
@@ -276,7 +278,8 @@ for rid, monomers in monomer_db.items():
                 normalized_min_monomer_period = 0
                 normalized_max_monomer_period = 2
 
-        # Exit the threshold loop if regularity or inversion detected\
+        # Exit the threshold loop if regularity, inversion or 
+        # missing monomer detected.
         if inversion_detected:
             break
         elif ((max_abs_head_to_tail <= allowed_max_head_to_tail) and
@@ -287,6 +290,10 @@ for rid, monomers in monomer_db.items():
             # Mark as regular
             is_regular = True
             break
+        elif isolate_count == 0 and \
+          max_head_to_tail > 0.9 * avg_monomer_len:
+            missing_monomer = True
+            break           
     # END OF THE THRESHOLD LOOP #
 
     # PREPARE THE OUTPUT BUFFER #
@@ -314,7 +321,7 @@ for rid, monomers in monomer_db.items():
              len(monomers),
              len(data),
              isolate_count,
-             1.0*len(data)*average_monomer_len/l_seq,
+             1.0*len(data)*avg_monomer_len/l_seq,
              cluster_count,
              np.mean(idt_in_clusters),
              np.mean(idt_out_clusters),
@@ -356,6 +363,11 @@ for rid, monomers in monomer_db.items():
         regular_HORs_file.write(fasta_seq)
         regular_pattern_file.write(fasta_tag)
         regular_pattern_file.write(symbolic_pattern + "\n")
+    elif missing_monomer:
+        # Most likely HMM missed a monomer.
+        stats_file.write(rid + " M " + stats)
+        missing_monomer_file.write(fasta_tag)
+        missing_monomer_file.write(fasta_seq)
     elif cluster_count > 1:
         # An irregular HOR.
         # (Some monomers clustered, but monomer order is irregular)
@@ -378,6 +390,7 @@ inversions_file.close()
 no_HOR_reads_file.close()
 too_short_reads_file.close()
 regular_HORs_file.close()
+missing_monomer_file.close()
 regular_pattern_file.close()
 irregular_pattern_file.close()
 inversions_pattern_file.close()

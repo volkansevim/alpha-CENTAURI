@@ -142,6 +142,7 @@ monomer\_graph\_analysis.py creates four FASTAs and three text files:
 * **no_HOR_reads.fa**: Reads that contain monomeric sequences but no detectable HOR.
 * **too_short_reads.fa**: Reads that are too short to be considered for analysis. Default threshold is 2Kbases.
 * **inversions.fa**: Reads that contain an inversion. 
+* **missing_monomer.fa**: Reads with a missing monomer. See KNOWN ISSUES for details. 
 * **regularHORs_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
 * **irregularHORs_pattern.txt**: Symbolic repeat pattern on each irregular HOR. Not meaningful for irregularities caused by non-monomeric insertions.
 * **inversions_pattern.txt**: Symbolic repeat pattern on each regular HOR, e.g., ABCDABCDABCD. Follows the same order as BASE_regularHORs.fa.
@@ -170,6 +171,11 @@ reason for this misclassification:
     (a) One or more monomers in the read are not recognized by the HMM.
 
     (b) HOR unit contains more multiple instances of a certain monomer.
+
+Currently, cases in (a) are reported seperately in missing_monomer.fa. The 
+file contains both regular and irregular reads with an unrecognized monomer. 
+Also, some reads with TE insertions could be potentially found in this file 
+as the current algorithm cannot distinguish a TE from an unrecognized monomer.
 
 We will improve the workflow in the next version of the software to correctly 
 classify such reads.
