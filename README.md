@@ -2,10 +2,14 @@ Installing and running alpha-CENTAURI
 ===========================================
 
 :Contributors: 
-    Volkan Sevim, Jason Chin, Ali Bashir, Karen Miga
-:Version: 0.2 of 2014/12/10
 
-alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a set for human genome is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
+Volkan Sevim, Jason Chin, Ali Bashir, Karen Miga
+
+:Version: 
+
+0.2 of 2014/12/10
+
+alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a sample set is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
 alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. 
 
@@ -28,44 +32,23 @@ Make sure you are using python2.7. First create a clean virtualenv and activate 
     $ cd $CENT_HOME
     $ . bin/activate
 
-Compile ``libhdf5`` (
-http://www.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-1.8.9/src/ ) and install it
-in under virtualenv:
-
-    $ wget http://www.hdfgroup.org/ftp/HDF5/prev-releases/hdf5-1.8.9/src/hdf5-1.8.9.tar.gz
-    $ tar zxvf hdf5-1.8.9.tar.gz
-    $ cd hdf5-1.8.9
-    $ ./configure --prefix=$HBAR_HOME --enable-cxx
-    $ make install
-    $ cd ..
-    $export HDF5INCLUDEDIR=/home/CENT_ENV/include/
-    $export HDF5LIBDIR=/home/CENT_ENV/lib/
-
 Install ``numpy``:
 
     $pip install numpy
-
-Install ``h5py`` ( http://h5py.googlecode.com/files/h5py-2.0.1.tar.gz )::
-
-    $ wget http://h5py.googlecode.com/files/h5py-2.0.1.tar.gz
-    $ tar zxvf h5py-2.0.1.tar.gz
-    $ cd h5py-2.0.1
-    $ python setup.py build --hdf5=$HBAR_HOME
-    $ python setup.py install
 
 Install ``networkx``
 
     $ pip install networkx
 
-Install PacBio packages ``PBcore`` and ``Falcon``
+Install PacBio package ``Falcon`` (Install the commit specified below to avoid a future incompatibility.)
 
-    $ pip install git+https://github.com/PacificBiosciences/pbcore.git#pbcore
-    $ pip install git+https://github.com/PacificBiosciences/FALCON.git#falcon
+    $ pip install git+https://github.com/PacificBiosciences/FALCON.git@96230ec9d6027e465deaccdb6fe3c045e5b820a3#falcon
  
-Install ``HMMer``
+Install ``HMMer`` (Instructions are intended for the 32-bit version. If you have a 64-bit system, locate the corresponding file on the HMMER website, and install as explained below.)
 
     $ wget http://selab.janelia.org/software/hmmer3/3.1b1/hmmer-3.1b1-linux-intel-ia32.gz.tar
     $ tar -xvf hmmer-3.1b1-linux-intel-ia32.gz.tar
+    $ cd hmmer-3.1b1-linux-intel-ia32
     $ ./configure
     $ make
     $ make check
@@ -168,9 +151,9 @@ result in missing some regular repeats with periods longer that 2.
 Some reads that are classified as irregular are in fact regular. Ther are two 
 reason for this misclassification:
 
-    (a) One or more monomers in the read are not recognized by the HMM.
+(a) One or more monomers in the read are not recognized by the HMM.
 
-    (b) HOR unit contains more multiple instances of a certain monomer.
+(b) HOR unit contains more multiple instances of a certain monomer.
 
 Currently, cases in (a) are reported seperately in missing_monomer.fa. The 
 file contains both regular and irregular reads with an unrecognized monomer. 
