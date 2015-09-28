@@ -54,14 +54,6 @@ Install ``HMMer`` (Instructions are intended for the 32-bit version. If you have
     $ make check
     $ make install
 
-Install ``ClustalW``
-
-    $ wget http://www.clustal.org/download/current/clustalw-2.1.tar.gz
-    $ tar -xvzf clustalw-2.1.tar.gz
-    $ cd clustalw-2.1
-    $ ./configure
-    $ make
-
 Clone ``alpha-CENTAURI``:
 
     $ cd $CENT_HOME
@@ -70,15 +62,13 @@ Clone ``alpha-CENTAURI``:
 
 Workflow Example
 --------------
-For this example, we will use the dataset under ``example`` folder provided in the package. There are 9 files in this folder:
+For this example, we will use the dataset under ``example`` folder provided in the package. There are 5 files in this folder:
 
-* MigaKH.HigherOrderRptMon.fa: Initial set of monomers from the human genome.
 * pread_HuPac_example.fa: A filtered set of reads that contain sequences similar to the provided monomers.
+* alpha.sto, alpha.rc.sto : Human alpha-satellite repeat consensus sequence aligned to itself, and its reverse complement. 
+The files below are the outputs of the step 1. of the workflow. They are provided for convenience.
 
-The files below are the outputs of the steps 1. and 2. of the workflow. They are provided for convenience.
-
-* MigaKH.HigherOrderRptMon.aln and .dnd: Multiple sequence alignments for the initial set of monomers.
-* monomers.hmm, .h3m, .h3i, h3f, h3p: HMM built using the multiple sequence alignment of the initial set of monomers.
+* alpha.hmm, alpha.rc.hmm: HMM built using the multiple sequence alignment of the consensus and its reverse complement.
 
 ### Workflow Steps
 
@@ -89,18 +79,19 @@ Generate multiple sequence alignments on the initial set of monomers
 
 Build an HMM based on the alignment.
 
-    $ hmmbuild monomers.hmm MigaKH.HigherOrderRptMon.aln
-    $ hmmpress monomers.hmm
+    $ hmmbuild alpha.hmm alpha.sto
+    $ hmmbuild alpha.rc.hmm alpha.rc.sto
+ 
+Infer monomers from sequence data using the HMM, write them into inferred_monomers.fa. 
 
-Infer monomers from sequence data using the HMM, write them into HuPac_monomers.fa. 
+    $ python ../src/chop_to_monomers.py pread_HuPac_example.fa alpha.hmm alpha.rc.hmm 
 
-    $ python ../src/chop_to_monomers.py pread_HuPac_example.fa monomers.hmm > HuPac_monomers.fa
-
-(Here minimum monomer length is assumed 160bp. Use the -l flag to modify it to analyze repeats other than alpha satellites. Use -h flag for help.)
+(Here minimum monomer length is assumed 150bp. Use the -l flag to modify the number in order to analyze repeats other than alpha satellites. Use -h flag for help.)
 
 Analyze the higher order structures in the sequence data.
 
-    $ python ../src/monomer_graph_analysis.py pread_HuPac_example.fa HuPac_monomers.fa
+    $ python ../src/monomer_graph_analysis.py pread_HuPac_example.fa inferred_monomers.fa
+    
 
 This script is pre-tuned for analyzing alpha-satellite repeats. Use the command-line arguments below to modify the analysis parameters. (Use -h flag for help.)
 
