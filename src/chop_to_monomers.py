@@ -48,7 +48,7 @@ parser.add_argument('hmm_file_rev',
 parser.add_argument('-l',
                     action = 'store',
                     type = int,
-                    default = 160,
+                    default = 150,
                     dest = 'min_monomer_length',
                     help = 'Minimum monomer length')
 
