@@ -5,22 +5,47 @@ import sys
 import os
 import argparse
 
+def parseHMMout(infilename, monomer_file_name, orientation):
+  ID="NO ID"
+  outfile=open(monomer_file_name, 'w')
+  with open(infilename) as f:
+    for line in f:
+      l = line.strip().split()    
+      if l == []:
+        continue
+      if ">>" in line:      
+        ID = l[1]
+      else:
+        if "!" in line:
+          low = int(l[12]) - 1
+          high = int(l[13]) - 1
+          if high-low+1 >= mono_len_threshold:
+            outfile.write(">%s/%d_%d/%s\n" % (ID,low+1,high+1,orientation))
+            outfile.write("%s\n" % seq_db[ID][low:high+1])
+            #print ID,"\t",low+1,"\t",high+1,"\t",orientation
+  outfile.close()
+
 class DefaultList(list):
     def __copy__(self):
-        return [] 
+        return []
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-parser.add_argument('fasta_file', 
-                    action='store',                    
+parser.add_argument('fasta_file',
+                    action='store',
                     help ='Name of the FASTA file containing the reads')
 
-parser.add_argument('hmm_file',
+parser.add_argument('hmm_file_fwd',
                     action = 'store',
-                    help = 'Name of the HMM file')
+                    help = 'Name of the forward HMM file')
 
-parser.add_argument('-l', 
+parser.add_argument('hmm_file_rev',
+                    action = 'store',
+                    help = 'Name of the reverse complement HMM file')
+
+
+parser.add_argument('-l',
                     action = 'store',
                     type = int,
                     default = 160,
@@ -31,88 +56,20 @@ parser.add_argument('--version', action='version', version='%(prog)s 0.2')
 
 results = parser.parse_args()
 in_seq_file = results.fasta_file
-hmm_model = results.hmm_file
+hmm_model_fwd = results.hmm_file_fwd
+hmm_model_rev = results.hmm_file_rev
 mono_len_threshold = results.min_monomer_length
+monomers_file=in_seq_file.replace(".fa","_inferred_monomers.fa")
 
-os.system("rm test_ctrl.tbl; rm test_ctrl.out; nhmmscan --cpu 32 --tblout test_ctrl.tbl -o test_ctrl.out --notextw %s %s" % (hmm_model, in_seq_file)) 
+# Call hmmsearch, build hmms based on consensus alignments
+os.system("rm -f hmmoutF.tbl hmmoutF.out; hmmsearch --cpu 8 --tblout hmmoutF.tbl -o hmmoutF.out  --notextw %s %s" % (hmm_model_fwd, in_seq_file)) 
+os.system("rm -f hmmoutR.tbl hmmoutR.out; hmmsearch --cpu 8 --tblout hmmoutR.tbl -o hmmoutR.out  --notextw %s %s" % (hmm_model_rev, in_seq_file)) 
 
-rc_map = dict( zip("ACGTacgtN","TGCAtgcaN") )
 seq_db = {}
 for r in FastaReader(in_seq_file):
     seq = r.sequence
     seq_db[r.name] = seq
-    
-hmm_db = {}
-with open("test_ctrl.tbl") as f:
-    for l in f:
-        l = l.strip().split()
-        if l[0][0] == "#":
-            continue
-        seq_name = l[2]
-        seq = seq_db[seq_name]
-        #print l
-        ms = int(l[4])
-        me = int(l[5])
-        if me - ms < 160:
-            continue
-        s = int(l[8])
-        e = int(l[9])
-        #print s, e, e-s
-        rev = False
-        if s > e:
-            #seq = "".join([rc_map[c] for c in seq[::-1]])
-            s, e = e, s
-            rev = True
-        if rev:
-            sseq = "".join([rc_map[c] for c in seq[e:s:-1]])
-        else:
-            sseq = seq[s:e]
-        hmm_db.setdefault(seq_name, []).append((s, e))        
-        print ">%s/%d_%d/%s" % (seq_name, s, e, 'R' if rev else 'F' ) 
-        print sseq
 
-flankingout = open ("flanking_seq.fa", 'w')
-internalout = open ("interval_seq.fa", 'w')
-
-for seq_name, ranges in hmm_db.items():
-    #print >>sys.stderr, seq_name, ranges
-    ranges.sort(key = lambda x: x[0])
-    #print >>sys.stderr, seq_name, ranges
-    beg_seq = 0
-    end_seq = len(seq_db[seq_name])
-    s_flag = True
-    prev_start = 0
-    prev_end = prev_start+1
-    internalranges = []
-    flankingranges = []
-    for idx in range(len(ranges)):
-        r = ranges[idx]
-        #print r
-        if r[0] <= prev_end:
-            if r[1] > prev_end:
-                prev_end = r[1]
-        else:
-            if s_flag:
-                flankingranges.append((prev_end, r[0]))
-            else:
-                internalranges.append((prev_end, r[0]))
-                prev_start = r[0]
-                prev_end = r[1]
-        s_flag = False
-    flankingranges.append((prev_end, end_seq))
-
-    sseq = seq_db[seq_name]
-    #print >>sys.stderr, "internal ranges", internalranges
-    #print >>sys.stderr, "flanking ranges", flankingranges
-    for irange in internalranges:
-        i_s, i_e = irange[0], irange[1] 
-        if i_e - i_s > 100:
-            internalout.write(">%s_%i_%i\n%s\n" %(seq_name, i_s, i_e, sseq[i_s:i_e]))
-    for frange in flankingranges:     
-        f_s, f_e = frange[0], frange[1]
-        if f_e - f_s > 100:
-            flankingout.write(">%s_%i_%i\n%s\n" %(seq_name, f_s, f_e, sseq[f_s:f_e]))
-
-
-
-
+parseHMMout("hmmoutF.out", "inferred_monomers_F.zzz", "F")
+parseHMMout("hmmoutR.out", "inferred_monomers_R.zzz", "R")
+os.system("cat inferred_monomers_F.zzz inferred_monomers_R.zzz > inferred_monomers.fa; rm inferred_monomers_F.zzz inferred_monomers_R.zzz")
