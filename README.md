@@ -9,7 +9,7 @@ Volkan Sevim, Jason Chin, Ali Bashir, Karen Miga
 
 0.2 of 2014/12/10
 
-alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial set of "monomer" sequences (a sample set is provided in the package). This initial set is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
+alpha-CENTAURI is a Pyhton package for mining alpha satellites and their higher-order structures in sequence data. It requires an initial consensus sequence (a sample is provided in the package). This consensus sequence is used to build an HMM model, which is employed to detect alpha-satellite monomers in the sequence data.
 
 alpha-CENTAURI can in principle run on any sequence data, however, its performance will increase greatly if the reads are filtered based on similarity to the initial monomer set. 
 
