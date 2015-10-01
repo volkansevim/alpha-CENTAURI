@@ -8,6 +8,7 @@ import argparse
 def parseHMMout(infilename, monomer_file_name, orientation):
   ID="NO ID"
   outfile=open(monomer_file_name, 'w')
+  #end_monomers=open("end_monomers_" + orientation + ".zzz", 'w')
   with open(infilename) as f:
     for line in f:
       l = line.strip().split()    
@@ -19,11 +20,16 @@ def parseHMMout(infilename, monomer_file_name, orientation):
         if "!" in line:
           low = int(l[12]) - 1
           high = int(l[13]) - 1
-          if high-low+1 >= mono_len_threshold:
-            outfile.write(">%s/%d_%d/%s\n" % (ID,low+1,high+1,orientation))
-            outfile.write("%s\n" % seq_db[ID][low:high+1])
-            #print ID,"\t",low+1,"\t",high+1,"\t",orientation
+          if high-low+1 >= mono_len_threshold :
+	    if low != 0 and high < len(seq_db[ID]) - 1:	
+              outfile.write(">%s/%d_%d/%s\n" % (ID,low+1,high+1,orientation))
+              outfile.write("%s\n" % seq_db[ID][low:high+1])
+              #print ID,"\t",low+1,"\t",high+1,"\t",orientation
+	    #else:
+  	      #end_monomers.write(">%s/%d_%d/%s\n" % (ID,low+1,high+1,orientation))
+              #end_monomers.write("%s\n" % seq_db[ID][low:high+1])	
   outfile.close()
+  #end_monomers.close()
 
 class DefaultList(list):
     def __copy__(self):
