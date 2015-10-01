@@ -72,12 +72,9 @@ The files below are the outputs of the step 1. of the workflow. They are provide
 
 ### Workflow Steps
 
-Generate multiple sequence alignments on the initial set of monomers 
+For this workflow, you will need a consensus sequence for the monomers in your repeats. The HMM needs two files: consensus sequence and its reverse complement aligned to themselves. If you have your own consensus sequence, you can just modify the .sto files provided in the package using that sequence.
 
-    $ cd alpha-CENTAURI/example/
-    $ $CENT_HOME/clustal-2.1/src/clustalW MigaKH.HigherOrderRptMon.fa
-
-Build an HMM based on the alignment.
+First, build an HMM based on the alignment.
 
     $ hmmbuild alpha.hmm alpha.sto
     $ hmmbuild alpha.rc.hmm alpha.rc.sto
@@ -86,13 +83,12 @@ Infer monomers from sequence data using the HMM, write them into inferred_monome
 
     $ python ../src/chop_to_monomers.py pread_HuPac_example.fa alpha.hmm alpha.rc.hmm 
 
-(Here minimum monomer length is assumed 150bp. Use the -l flag to modify the number in order to analyze repeats other than alpha satellites. Use -h flag for help.)
+(Here minimum monomer length is assumed 150bp, and shorter inferred monomers are discarded. Use the -l flag to modify this number in order to analyze repeats other than alpha satellites. Use -h flag for help.)
 
-Analyze the higher order structures in the sequence data.
+Analyze the higher order structures in the sequence data. 
 
     $ python ../src/monomer_graph_analysis.py pread_HuPac_example.fa inferred_monomers.fa
     
-
 This script is pre-tuned for analyzing alpha-satellite repeats. Use the command-line arguments below to modify the analysis parameters. (Use -h flag for help.)
 
   -l: Average length of a monomer.
