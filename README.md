@@ -49,7 +49,7 @@ Install ``HMMer`` (Instructions are intended for the 32-bit version. If you have
     $ wget http://selab.janelia.org/software/hmmer3/3.1b2/hmmer-3.1b2-linux-intel-ia32.tar.gz
     $ tar -xvf hmmer-3.1b1-linux-intel-ia32.gz.tar
     $ cd hmmer-3.1b1-linux-intel-ia32
-    $ ./configure
+    $ ./configure --prefix=$CENT_HOME
     $ make
     $ make check
     $ make install
