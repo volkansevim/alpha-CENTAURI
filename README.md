@@ -62,7 +62,7 @@ Clone ``alpha-CENTAURI``:
 
 Workflow Example
 --------------
-For this example, we will use the dataset under ``example`` folder provided in the package. There are 5 files in this folder:
+For this example, we will use the dataset under ``example`` folder provided in the package. There are 7 files in this folder:
 
 * pread_HuPac_example.fa: A filtered set of reads that contain sequences similar to the provided monomers.
 * alpha.sto, alpha.rc.sto : Human alpha-satellite repeat consensus sequence aligned to itself, and its reverse complement. 
@@ -70,6 +70,10 @@ The files below are the outputs of the step 1. of the workflow. They are provide
 
 * alpha.hmm, alpha.rc.hmm: HMM built using the multiple sequence alignment of the consensus and its reverse complement.
 
+* pread_HuPac_example_STATS.txt: Summary output from alpha-CENTAURI to double-check your results.
+
+* pread_CHM10x.fa.gz: CHM1 dataset mentioned in the publication.
+ 
 ### Workflow Steps
 
 For this workflow, you will need a consensus sequence for the monomers in your repeats. The HMM needs two files: consensus sequence and its reverse complement aligned to themselves. If you have your own consensus sequence, you can just modify the .sto files provided in the package using that sequence.
